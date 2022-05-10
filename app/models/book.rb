@@ -4,7 +4,10 @@ class Book < ApplicationRecord
   has_many :favorites, dependent: :destroy
   validates :title,presence:true
   validates :body,presence:true,length:{maximum:200}
-  
+
+  scope :latest, -> {order(created_at: :desc)}
+  scope :star_count, -> {order(rate: :desc)}
+
   def self.looks(search, word)
     if search == "perfect_match"
       @book = Book.where("title LIKE?","#{word}")

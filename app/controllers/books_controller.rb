@@ -7,12 +7,18 @@ class BooksController < ApplicationController
     @user = @book.user
     @book_comment = BookComment.new
   end
-
-  def index
+def index
+  
+  if params[:latest]
+    @books = Book.latest
+  elsif params[:star_count]
+    @books = Book.star_count
+  else
     @books = Book.all
-    @book = Book.new
-
   end
+
+  @book = Book.new
+end
 
   def create
     @book = Book.new(book_params)
